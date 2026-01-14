@@ -1,0 +1,40 @@
+---
+title: "Strona główna"
+author: "..."
+date: "`r Sys.Date()`"
+output:
+  workflowr::wflow_html:
+    toc: false
+---
+
+## Witaj na mojej stronie!
+
+![Uniwersytet](assets/uczelnia.jpg){width=60%}
+
+### O mnie
+
+Nazywam się **[Twoje Imię i Nazwisko]** i jestem studentem/studentką kierunku **[Nazwa kierunku]** na **[Nazwa uczelni]**.
+
+Ta strona została stworzona jako projekt zaliczeniowy i zawiera:
+
+- CV
+- Analizę danych w R
+- Prezentację moich zainteresowań
+
+### Informacje techniczne
+
+Strona została wygenerowana przy użyciu pakietu **workflowr** w języku R. 
+
+Workflowr to narzędzie do tworzenia zorganizowanych i reprodukowalnych analiz danych, które automatycznie generuje strony internetowe z plików R Markdown.
+
+---
+
+### Nawigacja
+
+Skorzystaj z menu u góry strony, aby przejść do poszczególnych sekcji:
+
+- **CV** - moje doświadczenie i umiejętności
+- **Analiza danych** - praktyczna analiza zbioru danych w R
+- **Prezentacja** - moje pasje i zainteresowania
+
+---

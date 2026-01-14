@@ -1,0 +1,17 @@
+name: "Projekt"
+output_dir: ../docs
+navbar:
+  title: "Projekt"
+  left:
+  - text: Home
+    href: index.html
+  - text: CV
+    href: cv.html
+  - text: Anazlia danych         
+    href: analiza.html
+output:
+  workflowr::wflow_html:
+    toc: yes
+    toc_float: yes
+    theme: lumen
+    highlight: textmate
