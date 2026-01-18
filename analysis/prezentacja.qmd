@@ -1,5 +1,99 @@
 ---
-title: "prezentacja"
-output: html_document
+title: "Moje pasje i zainteresowania"
+format:
+  revealjs:
+    theme: sky
+    transition: slide
+    slide-number: true
+    chalkboard: true
+    footer: "Prezentacja stworzona w Quarto"
 ---
 
+## Witaj! {.center}
+Zapraszam do poznania moich pasji i zainteresowań!
+
+---
+
+## O czym jest ta prezentacja?
+
+O mnie oczywiście! :)
+
+
+---
+
+## Programowanie {.smaller}
+
+Języki, które znam lub się uczę:
+
+- **R**
+- **C/C++**
+- **C#**
+- **Python**
+- **SQL**
+- **JavaScript**
+
+---
+
+## Gry i esport {.smaller}
+
+**Analiza strategii i mechanik gier**
+
+```{r echo=FALSE, fig.width=10, fig.height=5}
+library(ggplot2)
+
+gry <- data.frame(
+  gatunek = c("Strategy", "RPG", "Competitive", "Sandbox", "Indie"),
+  godziny = c(450, 320, 580, 280, 150)
+)
+
+ggplot(gry, aes(x = reorder(gatunek, godziny), y = godziny, fill = gatunek)) +
+  geom_col() +
+  coord_flip() +
+  labs(title = "Czas spędzony w różnych gatunkach gier",
+       x = "Gatunek",
+       y = "Godziny gry") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  scale_fill_viridis_d()
+```
+
+<small>*Gaming jako sposób na relaks i trening szybkiego myślenia*</small>
+
+---
+
+## Muzyka - moja eklektyczna playlista {.smaller}
+
+**Od ciężkich riffów po spokojne melodie**
+
+```{r echo=FALSE, fig.width=10, fig.height=5}
+library(ggplot2)
+
+muzyka <- data.frame(
+  gatunek = c("Metal", "Szanty", "OST gier", "Elektroniczna"),
+  procent = c(35, 20, 25, 20)
+)
+
+ggplot(muzyka, aes(x = "", y = procent, fill = gatunek)) +
+  geom_bar(stat = "identity", width = 1, color = "white", size = 1.5) +
+  coord_polar("y", start = 0) +
+  labs(title = "Rozkład gatunków muzycznych w mojej playliście",
+       fill = "Gatunek") +
+  theme_minimal() +
+  theme(
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank()
+  ) +
+  scale_fill_manual(values = c("#8B0000", "#1E90FF", "#FF8C00", "#9370DB")) +
+  geom_text(aes(label = paste0(procent, "%")),
+            position = position_stack(vjust = 0.5),
+            color = "white", size = 5, fontface = "bold")
+```
+
+<small>*Różnorodność gatunków w zależności od nastroju i sytuacji*</small>
+
+---
+
+
+## Dziękuję za uwagę! {.center}
+<small>*Prezentacja stworzona w Quarto*</small>

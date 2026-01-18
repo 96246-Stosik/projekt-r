@@ -1,5 +1,0 @@
----
-title: "prezentacja"
-output: html_document
----
-
