@@ -12,7 +12,7 @@
 
 <meta name="date" content="2026-01-18" />
 
-<title>Strona główna</title>
+<title>Curriculum Vitae</title>
 
 <script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -284,7 +284,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Strona główna</h1>
+<h1 class="title toc-ignore">Curriculum Vitae</h1>
 <h4 class="date">2026-01-18</h4>
 
 </div>
@@ -503,8 +503,8 @@ have uncommitted changes.
 <div id="versions" class="tab-pane fade">
 <p>
 These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
-(<code>docs/index.html</code>) files. If you’ve configured a remote Git
+made to the R Markdown (<code>analysis/cv.Rmd</code>) and HTML
+(<code>docs/cv.html</code>) files. If you’ve configured a remote Git
 repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
 in the table below to view the files as they were in that past version.
 </p>
@@ -535,7 +535,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/96246-Stosik/projekt-r/blob/4ad4a6e17a28c4c8978e88f5b87fb2c2858f57a9/analysis/index.Rmd" target="_blank">4ad4a6e</a>
+<a href="https://github.com/96246-Stosik/projekt-r/blob/4ad4a6e17a28c4c8978e88f5b87fb2c2858f57a9/analysis/cv.Rmd" target="_blank">4ad4a6e</a>
 </td>
 <td>
 96246-Stosik
@@ -552,24 +552,7 @@ Complete workflowr project
 Rmd
 </td>
 <td>
-<a href="https://github.com/96246-Stosik/projekt-r/blob/6210cedc32fda019c550a47e3518a7aaae859b61/analysis/index.Rmd" target="_blank">6210ced</a>
-</td>
-<td>
-96246-Stosik
-</td>
-<td>
-2026-01-18
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/96246-Stosik/projekt-r/6210cedc32fda019c550a47e3518a7aaae859b61/docs/index.html" target="_blank">6210ced</a>
+<a href="https://github.com/96246-Stosik/projekt-r/blob/6210cedc32fda019c550a47e3518a7aaae859b61/analysis/cv.Rmd" target="_blank">6210ced</a>
 </td>
 <td>
 96246-Stosik
@@ -588,42 +571,119 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<div id="witaj-na-mojej-stronie" class="section level2">
-<h2>Witaj na mojej stronie!</h2>
-<div id="o-mnie" class="section level3">
-<h3>O mnie</h3>
-<p>Nazywam się <strong>Imię Nazwisko</strong> i jestem
-studentem/studentką kierunku <strong>Informatyka i Inżynieria
-danych</strong> na <strong>Uniwersytet Przyrodniczy w
-Poznaniu</strong>.</p>
-<p><img src="assets/uczelnia.jpg" style="width:60.0%" /></p>
-<p>Ta strona została stworzona jako projekt zaliczeniowy i zawiera:</p>
-<ul>
-<li>CV</li>
-<li>Analizę danych w R</li>
-<li>Prezentację moich zainteresowań</li>
-</ul>
-</div>
-<div id="informacje-techniczne" class="section level3">
-<h3>Informacje techniczne</h3>
-<p>Strona została wygenerowana przy użyciu pakietu
-<strong>workflowr</strong> w języku R.</p>
-<p>Workflowr to narzędzie do tworzenia zorganizowanych i
-reprodukowalnych analiz danych, które automatycznie generuje strony
-internetowe z plików R Markdown.</p>
+<style>
+.cv-section {
+  margin-bottom: 30px;
+}
+.cv-section h2 {
+  color: #2C3E50;
+  border-bottom: 2px solid #3498DB;
+  padding-bottom: 5px;
+  margin-top: 25px;
+}
+.cv-item {
+  margin-bottom: 20px;
+}
+.cv-item h3 {
+  color: #34495E;
+  margin-bottom: 5px;
+}
+.cv-date {
+  color: #7F8C8D;
+  font-style: italic;
+  font-size: 0.9em;
+}
+.cv-description {
+  margin-top: 8px;
+  line-height: 1.6;
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+.skill-category {
+  background-color: #ECF0F1;
+  padding: 15px;
+  border-radius: 5px;
+}
+.skill-category h4 {
+  color: #2C3E50;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+</style>
+<hr />
+<div id="dane-osobowe" class="section level2">
+<h2>Dane osobowe</h2>
+<p><strong>Imię i nazwisko:</strong> Takie jak na dowodzie<br />
+<strong>Email:</strong> Nie sprawdzam<br />
+<strong>Telefon:</strong> Posiadam<br />
+<strong>Lokalizacja:</strong> gdzieś w polsce</p>
 <hr />
 </div>
-<div id="nawigacja" class="section level3">
-<h3>Nawigacja</h3>
-<p>Skorzystaj z menu u góry strony, aby przejść do poszczególnych
-sekcji:</p>
-<ul>
-<li><strong>CV</strong> - moje doświadczenie i umiejętności</li>
-<li><strong>Analiza danych</strong> - praktyczna analiza zbioru danych w
-R</li>
-<li><strong>Prezentacja</strong> - moje pasje i zainteresowania</li>
-</ul>
+<div id="wykształcenie" class="section level2 cv-section">
+<h2>Wykształcenie</h2>
+<div id="uniwersytet-przyrodniczy-w-poznaniu"
+class="section level3 cv-item">
+<h3>Uniwersytet Przyrodniczy w Poznaniu</h3>
+<p><span class="cv-date"> 2023 - obecnie</span></p>
+<p><strong>Kierunek:</strong> Informatyka i Inżynieria danych<br />
+<strong>Stopień:</strong> I</p>
+</div>
+<div id="szkoła-średnia" class="section level3 cv-item">
+<h3>Szkoła Średnia</h3>
+<p><strong>Profil:</strong> matematyczno-informatyczny<br />
+<strong>Matura:</strong> Rozszerzona matematyka, informatyka,
+angielski</p>
+</div>
+</div>
 <hr />
+<div id="umiejętności" class="section level2 cv-section">
+<h2>Umiejętności</h2>
+<div class="skills-grid">
+<div id="języki-programowania" class="section level4 skill-category">
+<h4>Języki programowania</h4>
+<ul>
+<li><strong>R</strong></li>
+<li><strong>C/C++</strong></li>
+<li><strong>C#</strong></li>
+<li><strong>Python</strong></li>
+<li><strong>SQL</strong></li>
+<li><strong>JavaScript</strong></li>
+</ul>
+</div>
+<div id="technologie-webowe" class="section level4 skill-category">
+<h4>Technologie webowe</h4>
+<ul>
+<li><strong>HTML/CSS</strong></li>
+<li><strong>Git</strong> &amp; <strong>GitHub</strong></li>
+<li><strong>Markdown</strong></li>
+</ul>
+</div>
+</div>
+</div>
+<hr />
+<div id="języki-obce" class="section level2 cv-section">
+<h2>Języki obce</h2>
+<ul>
+<li><strong>Polski</strong> - ojczysty</li>
+<li><strong>Angielski</strong> - [poziom: B2]</li>
+</ul>
+</div>
+<hr />
+<div id="zainteresowania" class="section level2 cv-section">
+<h2>Zainteresowania</h2>
+<ul>
+<li>Analiza danych i wizualizacja</li>
+</ul>
+</div>
+<hr />
+<center>
+<small><em>CV stworzone w R Markdown jako część projektu
+workflowr</em></small>
+</center>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -668,8 +728,6 @@ loaded via a namespace (and not attached):
 [33] later_1.4.5       digest_0.6.39     R6_2.6.1          pillar_1.11.1    
 [37] callr_3.7.6       magrittr_2.0.3    bslib_0.9.0       tools_4.4.2      
 [41] cachem_1.1.0      getPass_0.2-4    </code></pre>
-</div>
-</div>
 </div>
 </div>
 </div>

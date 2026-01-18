@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2026-01-18" />
+
+<title>Analiza aktywności słonecznej</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Projekt</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="cv.html">CV</a>
+</li>
+<li>
+  <a href="analiza.html">Anazlia danych</a>
+</li>
+<li>
+  <a href="prezentacja.html">Prezentacja</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/96246-Stosik/projekt-r">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Analiza aktywności słonecznej</h1>
+<h4 class="date">2026-01-18</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2026-01-18
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>Projekt/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.2). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20260116code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20260116)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20260116code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20260116)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcom96246Stosikprojektrtree4ad4a6e17a28c4c8978e88f5b87fb2c2858f57a9targetblank4ad4a6ea">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/96246-Stosik/projekt-r/tree/4ad4a6e17a28c4c8978e88f5b87fb2c2858f57a9" target="_blank">4ad4a6e</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcom96246Stosikprojektrtree4ad4a6e17a28c4c8978e88f5b87fb2c2858f57a9targetblank4ad4a6ea"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/96246-Stosik/projekt-r/tree/4ad4a6e17a28c4c8978e88f5b87fb2c2858f57a9" target="_blank">4ad4a6e</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  analysis/assets/
+
+Unstaged changes:
+    Modified:   analysis/prezentacja.qmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/analiza.Rmd</code>) and HTML
+(<code>docs/analiza.html</code>) files. If you’ve configured a remote
+Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/96246-Stosik/projekt-r/blob/4ad4a6e17a28c4c8978e88f5b87fb2c2858f57a9/analysis/analiza.Rmd" target="_blank">4ad4a6e</a>
+</td>
+<td>
+96246-Stosik
+</td>
+<td>
+2026-01-18
+</td>
+<td>
+Complete workflowr project
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/96246-Stosik/projekt-r/blob/6210cedc32fda019c550a47e3518a7aaae859b61/analysis/analiza.Rmd" target="_blank">6210ced</a>
+</td>
+<td>
+96246-Stosik
+</td>
+<td>
+2026-01-18
+</td>
+<td>
+Start workflowr project.
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="wprowadzenie" class="section level1">
+<h1>Wprowadzenie</h1>
+<div id="opis-zbioru-danych" class="section level2">
+<h2>Opis zbioru danych</h2>
+<p>Zbiór danych <strong>sunspots</strong> zawiera miesięczną liczbę plam
+słonecznych (sunspots) zaobserwowanych od stycznia 1749 roku do grudnia
+1983 roku.</p>
+<p><strong>Źródło:</strong> Wbudowany zbiór danych w R
+(<code>datasets::sunspots</code>)</p>
+<p><strong>Co przedstawia:</strong> Plamy słoneczne to ciemne obszary na
+powierzchni Słońca związane z intensywną aktywnością magnetyczną. Ich
+liczba zmienia się cyklicznie, co ma wpływ na:</p>
+<ul>
+<li>pogodę kosmiczną</li>
+<li>komunikację radiową na Ziemi</li>
+<li>satelity i sieci elektryczne</li>
+</ul>
+<div class="float">
+<img src="assets/Sunspots.jpg" style="width:60.0%" alt="Sunspots" />
+<div class="figcaption">Sunspots</div>
+</div>
+<p><em>NASA Goddard Space Flight Center from Greenbelt, MD, USA</em></p>
+<p>Cykl słoneczny trwa średnio około 11 lat.</p>
+</div>
+<div id="dane" class="section level2">
+<h2>Dane</h2>
+<pre class="r"><code>data &lt;- data.frame(
+  rok = floor(time(sunspots)),
+  miesiac = cycle(sunspots),
+  plamy = as.numeric(sunspots),
+  czas = as.numeric(time(sunspots))
+)
+
+data$miesiac &lt;- factor(data$miesiac, labels = c(&quot;Styczeń&quot;, &quot;Luty&quot;, &quot;Marzec&quot;, &quot;Kwiecień&quot;, 
+                                                 &quot;Maj&quot;, &quot;Czerwiec&quot;, &quot;Lipiec&quot;, &quot;Sierpień&quot;,
+                                                 &quot;Wrzesień&quot;, &quot;Październik&quot;, &quot;Listopad&quot;, &quot;Grudzień&quot;))
+
+head(data)</code></pre>
+<pre><code>   rok  miesiac plamy     czas
+1 1749  Styczeń  58.0 1749.000
+2 1749     Luty  62.6 1749.083
+3 1749   Marzec  70.0 1749.167
+4 1749 Kwiecień  55.7 1749.250
+5 1749      Maj  85.0 1749.333
+6 1749 Czerwiec  83.5 1749.417</code></pre>
+<div id="wyjasnienie-kolumn" class="section level3">
+<h3>Wyjasnienie kolumn</h3>
+<ul>
+<li><strong>rok</strong> - rok obserwacji</li>
+<li><strong>miesiac</strong> - factor z polskimi nazwami miesięcyh</li>
+<li><strong>plamy</strong> - liczba zaobserwowanych plam
+słonecznych</li>
+<li><strong>czas</strong> - ciągła reprezentacja czasu jako liczba
+dziesiętna (rok + miesiąc/12)</li>
+</ul>
+</div>
+<div id="podstawowe-statystyki-plam" class="section level3">
+<h3>Podstawowe Statystyki plam</h3>
+<pre class="r"><code>summary(data$plamy)</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.00   15.70   42.00   51.27   74.92  253.80 </code></pre>
+</div>
+</div>
+</div>
+<div id="analiza-danych" class="section level1">
+<h1>Analiza danych</h1>
+<div id="przekształcenia-danych-z-użyciem-dplyr" class="section level2">
+<h2>Przekształcenia danych z użyciem dplyr</h2>
+<div id="filtrowanie-danych" class="section level3">
+<h3>1. Filtrowanie danych</h3>
+<p><strong>Dane tylko z XIX wieku</strong></p>
+<pre class="r"><code>filtered = data %&gt;% 
+  filter(rok &gt;= 1801, rok &lt;= 1900)
+
+cat(&quot;Liczba wierszy przed filtrowaniem:&quot;, nrow(data), &quot;\n&quot;)</code></pre>
+<pre><code>Liczba wierszy przed filtrowaniem: 2820 </code></pre>
+<pre class="r"><code>cat(&quot;Liczba wierszy po filtrowaniu:&quot;, nrow(filtered), &quot;\n&quot;)</code></pre>
+<pre><code>Liczba wierszy po filtrowaniu: 1200 </code></pre>
+<pre class="r"><code>cat(&quot;Zakres lat:&quot;, min(filtered$rok), &quot;-&quot;, max(filtered$rok))</code></pre>
+<pre><code>Zakres lat: 1801 - 1900</code></pre>
+<pre class="r"><code>filtered %&gt;%
+  head(25) %&gt;% 
+  kbl(caption = &quot;Pierwsze 25 wierszy&quot;) %&gt;%
+  kable_classic(full_width = F, html_font = &quot;Palatino&quot;)</code></pre>
+<table class=" lightable-classic" style="font-family: Palatino; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Pierwsze 25 wierszy
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+rok
+</th>
+<th style="text-align:left;">
+miesiac
+</th>
+<th style="text-align:right;">
+plamy
+</th>
+<th style="text-align:right;">
+czas
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1801
+</td>
+<td style="text-align:left;">
+Styczeń
+</td>
+<td style="text-align:right;">
+27.0
+</td>
+<td style="text-align:right;">
+1801.000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1801
+</td>
+<td style="text-align:left;">
+Luty
+</td>
+<td style="text-align:right;">
+29.0
+</td>
+<td style="text-align:right;">
+1801.083
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1801
+</td>
+<td style="text-align:left;">
+Marzec
+</td>
+<td style="text-align:right;">
+30.0
+</td>
+<td style="text-align:right;">
+1801.167
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1801
+</td>
+<td style="text-align:left;">
+Kwiecień
+</td>
+<td style="text-align:right;">
+31.0
+</td>
+<td style="text-align:right;">
+1801.250
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1801
+</td>
+<td style="text-align:left;">
+Maj
+</td>
+<td style="text-align:right;">
+32.0
+</td>
+<td style="text-align:right;">
+1801.333
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1801
+</td>
+<td style="text-align:left;">
+Czerwiec
+</td>
+<td style="text-align:right;">
+31.2
+</td>
+<td style="text-align:right;">
+1801.417
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1801
+</td>
+<td style="text-align:left;">
+Lipiec
+</td>
+<td style="text-align:right;">
+35.0
+</td>
+<td style="text-align:right;">
+1801.500
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1801
+</td>
+<td style="text-align:left;">
+Sierpień
+</td>
+<td style="text-align:right;">
+38.7
+</td>
+<td style="text-align:right;">
+1801.583
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1801
+</td>
+<td style="text-align:left;">
+Wrzesień
+</td>
+<td style="text-align:right;">
+33.5
+</td>
+<td style="text-align:right;">
+1801.667
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1801
+</td>
+<td style="text-align:left;">
+Październik
+</td>
+<td style="text-align:right;">
+32.6
+</td>
+<td style="text-align:right;">
+1801.750
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1801
+</td>
+<td style="text-align:left;">
+Listopad
+</td>
+<td style="text-align:right;">
+39.8
+</td>
+<td style="text-align:right;">
+1801.833
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1801
+</td>
+<td style="text-align:left;">
+Grudzień
+</td>
+<td style="text-align:right;">
+48.2
+</td>
+<td style="text-align:right;">
+1801.917
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1802
+</td>
+<td style="text-align:left;">
+Styczeń
+</td>
+<td style="text-align:right;">
+47.8
+</td>
+<td style="text-align:right;">
+1802.000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1802
+</td>
+<td style="text-align:left;">
+Luty
+</td>
+<td style="text-align:right;">
+47.0
+</td>
+<td style="text-align:right;">
+1802.083
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1802
+</td>
+<td style="text-align:left;">
+Marzec
+</td>
+<td style="text-align:right;">
+40.8
+</td>
+<td style="text-align:right;">
+1802.167
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1802
+</td>
+<td style="text-align:left;">
+Kwiecień
+</td>
+<td style="text-align:right;">
+42.0
+</td>
+<td style="text-align:right;">
+1802.250
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1802
+</td>
+<td style="text-align:left;">
+Maj
+</td>
+<td style="text-align:right;">
+44.0
+</td>
+<td style="text-align:right;">
+1802.333
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1802
+</td>
+<td style="text-align:left;">
+Czerwiec
+</td>
+<td style="text-align:right;">
+46.0
+</td>
+<td style="text-align:right;">
+1802.417
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1802
+</td>
+<td style="text-align:left;">
+Lipiec
+</td>
+<td style="text-align:right;">
+48.0
+</td>
+<td style="text-align:right;">
+1802.500
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1802
+</td>
+<td style="text-align:left;">
+Sierpień
+</td>
+<td style="text-align:right;">
+50.0
+</td>
+<td style="text-align:right;">
+1802.583
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1802
+</td>
+<td style="text-align:left;">
+Wrzesień
+</td>
+<td style="text-align:right;">
+51.8
+</td>
+<td style="text-align:right;">
+1802.667
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1802
+</td>
+<td style="text-align:left;">
+Październik
+</td>
+<td style="text-align:right;">
+38.5
+</td>
+<td style="text-align:right;">
+1802.750
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1802
+</td>
+<td style="text-align:left;">
+Listopad
+</td>
+<td style="text-align:right;">
+34.5
+</td>
+<td style="text-align:right;">
+1802.833
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1802
+</td>
+<td style="text-align:left;">
+Grudzień
+</td>
+<td style="text-align:right;">
+50.0
+</td>
+<td style="text-align:right;">
+1802.917
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1803
+</td>
+<td style="text-align:left;">
+Styczeń
+</td>
+<td style="text-align:right;">
+50.0
+</td>
+<td style="text-align:right;">
+1803.000
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="grupowanie-i-agregacja" class="section level3">
+<h3>2. Grupowanie i agregacja</h3>
+<pre class="r"><code>dekady = data %&gt;% 
+  mutate(dekada = floor(rok / 10) * 10) %&gt;%
+  group_by(dekada) %&gt;%
+  summarise(
+    srednia_plam = mean(plamy),
+    max_plam = max(plamy),
+    min_plam = min(plamy),
+  )
+
+dekady %&gt;% 
+   kbl(caption = &quot;Średnia aktywnośc według dekad&quot;) %&gt;%
+  kable_classic(full_width = F, html_font = &quot;Palatino&quot;)</code></pre>
+<table class=" lightable-classic" style="font-family: Palatino; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Średnia aktywnośc według dekad
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+dekada
+</th>
+<th style="text-align:right;">
+srednia_plam
+</th>
+<th style="text-align:right;">
+max_plam
+</th>
+<th style="text-align:right;">
+min_plam
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1740
+</td>
+<td style="text-align:right;">
+80.92500
+</td>
+<td style="text-align:right;">
+158.6
+</td>
+<td style="text-align:right;">
+55.7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1750
+</td>
+<td style="text-align:right;">
+37.55083
+</td>
+<td style="text-align:right;">
+103.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1760
+</td>
+<td style="text-align:right;">
+53.74000
+</td>
+<td style="text-align:right;">
+158.2
+</td>
+<td style="text-align:right;">
+3.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1770
+</td>
+<td style="text-align:right;">
+71.38833
+</td>
+<td style="text-align:right;">
+238.9
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1780
+</td>
+<td style="text-align:right;">
+71.23250
+</td>
+<td style="text-align:right;">
+174.0
+</td>
+<td style="text-align:right;">
+6.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1790
+</td>
+<td style="text-align:right;">
+35.89167
+</td>
+<td style="text-align:right;">
+127.5
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1800
+</td>
+<td style="text-align:right;">
+27.51000
+</td>
+<td style="text-align:right;">
+62.3
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1810
+</td>
+<td style="text-align:right;">
+20.87583
+</td>
+<td style="text-align:right;">
+96.2
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1820
+</td>
+<td style="text-align:right;">
+27.03250
+</td>
+<td style="text-align:right;">
+98.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1830
+</td>
+<td style="text-align:right;">
+67.36333
+</td>
+<td style="text-align:right;">
+206.2
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1840
+</td>
+<td style="text-align:right;">
+57.00583
+</td>
+<td style="text-align:right;">
+180.4
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1850
+</td>
+<td style="text-align:right;">
+42.72583
+</td>
+<td style="text-align:right;">
+114.6
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1860
+</td>
+<td style="text-align:right;">
+48.81500
+</td>
+<td style="text-align:right;">
+116.7
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1870
+</td>
+<td style="text-align:right;">
+51.29167
+</td>
+<td style="text-align:right;">
+176.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1880
+</td>
+<td style="text-align:right;">
+37.69167
+</td>
+<td style="text-align:right;">
+95.8
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1890
+</td>
+<td style="text-align:right;">
+44.94000
+</td>
+<td style="text-align:right;">
+129.2
+</td>
+<td style="text-align:right;">
+0.6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1900
+</td>
+<td style="text-align:right;">
+35.53417
+</td>
+<td style="text-align:right;">
+108.2
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1910
+</td>
+<td style="text-align:right;">
+39.14167
+</td>
+<td style="text-align:right;">
+154.5
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1920
+</td>
+<td style="text-align:right;">
+42.05083
+</td>
+<td style="text-align:right;">
+108.0
+</td>
+<td style="text-align:right;">
+0.5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1930
+</td>
+<td style="text-align:right;">
+51.09000
+</td>
+<td style="text-align:right;">
+165.3
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1940
+</td>
+<td style="text-align:right;">
+71.85333
+</td>
+<td style="text-align:right;">
+201.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1950
+</td>
+<td style="text-align:right;">
+91.62000
+</td>
+<td style="text-align:right;">
+253.8
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1960
+</td>
+<td style="text-align:right;">
+60.89167
+</td>
+<td style="text-align:right;">
+146.3
+</td>
+<td style="text-align:right;">
+3.1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1970
+</td>
+<td style="text-align:right;">
+61.62583
+</td>
+<td style="text-align:right;">
+188.4
+</td>
+<td style="text-align:right;">
+1.9
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1980
+</td>
+<td style="text-align:right;">
+119.48750
+</td>
+<td style="text-align:right;">
+179.9
+</td>
+<td style="text-align:right;">
+33.3
+</td>
+</tr>
+</tbody>
+</table>
+<p>Możemy zauważyć znaczne wahania aktywności słonecznej między
+dekadami. Najwyższa średnia aktywność występowała w latach
+1980-1989.</p>
+</div>
+<div id="obliczenie-rocznych-statystyk" class="section level3">
+<h3>3. Obliczenie rocznych statystyk</h3>
+<pre class="r"><code>roczne = data %&gt;% 
+  group_by(rok) %&gt;%
+  summarise(
+    srednia_roczna = mean(plamy),
+    max_roczne = max(plamy),
+    suma_roczna = sum(plamy)
+  ) %&gt;%
+  mutate(
+    kategoria = case_when(
+      srednia_roczna &lt; 50 ~ &quot;Niska aktywność&quot;,
+      srednia_roczna &lt; 100 ~ &quot;Średnia aktywność&quot;,
+      TRUE ~ &quot;Wysoka aktywność&quot;
+    )
+  )
+
+roczne %&gt;%
+  group_by(kategoria) %&gt;%
+  summarise(liczba_lat = n()) %&gt;% 
+  kbl(caption = &quot;Liczb lat o określonej aktywności&quot;) %&gt;%
+  kable_classic(full_width = F, html_font = &quot;Palatino&quot;)</code></pre>
+<table class=" lightable-classic" style="font-family: Palatino; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Liczb lat o określonej aktywności
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+kategoria
+</th>
+<th style="text-align:right;">
+liczba_lat
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Niska aktywność
+</td>
+<td style="text-align:right;">
+137
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Wysoka aktywność
+</td>
+<td style="text-align:right;">
+32
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Średnia aktywność
+</td>
+<td style="text-align:right;">
+66
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="wizualizacje" class="section level2">
+<h2>Wizualizacje</h2>
+<div id="wykres-1" class="section level3">
+<h3>Wykres 1:</h3>
+<pre class="r"><code>ggplot(filtered, aes(x = czas, y = plamy)) +
+  geom_line(color = &quot;#FF6B35&quot;, alpha = 0.7) +
+  geom_smooth(method = &quot;loess&quot;, color = &quot;#004E89&quot;, se = TRUE) +
+  labs(
+    title = &quot;Liczba plam słonecznych w XIX wieku&quot;,
+    x = &quot;Rok&quot;,
+    y = &quot;Liczba plam słonecznych&quot;,
+    caption = &quot;Źródło: Zbiór danych sunspots (R datasets)&quot;
+  ) +
+  theme_minimal(base_size = 12)</code></pre>
+<p><img src="figure/analiza.Rmd/plot1-1.png" alt="" width="960" style="display: block; margin: auto;" />
+Wykres liniowy wyraźnie pokazuje cykliczny charakter aktywności
+słonecznej. Niebieska linia trendu (loess) pomaga dostrzec ogólne
+wzorce. Możemy zaobserwować regularne wzrosty i spadki liczby plam
+słonecznych, potwierdzające istnienie cyklu słonecznego.</p>
+</div>
+<div id="wykres-2-rozkład-liczby-plam-słonecznych-histogram"
+class="section level3">
+<h3>Wykres 2: Rozkład liczby plam słonecznych (histogram)</h3>
+<pre class="r"><code>ggplot(data, aes(x = plamy)) +
+  geom_histogram(bins = 40, fill = &quot;#F77F00&quot;, color = &quot;white&quot;, alpha = 0.8) +
+  geom_vline(aes(xintercept = mean(plamy)), 
+             color = &quot;#003049&quot;, linetype = &quot;dashed&quot;, size = 1) +
+  annotate(&quot;text&quot;, x = mean(data$plamy) + 20, y = 200, 
+           label = paste(&quot;Średnia =&quot;, round(mean(data$plamy), 1)),
+           color = &quot;#003049&quot;, size = 4) +
+  labs(
+    title = &quot;Rozkład liczby plam słonecznych (1749-1983)&quot;,
+    subtitle = &quot;Histogram przedstawiający częstość występowania różnych wartości&quot;,
+    x = &quot;Liczba plam słonecznych&quot;,
+    y = &quot;Częstość występowania&quot;,
+    caption = &quot;Przerywana linia wskazuje średnią wartość&quot;
+  ) +
+  theme_minimal(base_size = 12)</code></pre>
+<p><img src="figure/analiza.Rmd/plot2-1.png" alt="" width="864" style="display: block; margin: auto;" />
+HIstogram pokazuje, że najczęściej obserwowano stosunkowo niską
+aktywność (0-50 plam), ale zdarzały się także okresy bardzo wysokiej
+aktywności przekraczającej 200 plam. Średnia wartość wynosi około 51
+plam miesięcznie.</p>
+</div>
+<div id="wykres-3-sezonowość-aktywności-słonecznej-boxplot"
+class="section level3">
+<h3>Wykres 3: Sezonowość aktywności słonecznej (boxplot)</h3>
+<pre class="r"><code>ggplot(data, aes(x = miesiac, y = plamy, fill = miesiac)) +
+  geom_boxplot(alpha = 0.7, outlier.color = &quot;#D62828&quot;) +
+  stat_summary(fun = mean, geom = &quot;point&quot;, shape = 23, size = 3, 
+               fill = &quot;white&quot;, color = &quot;black&quot;) +
+  labs(
+    title = &quot;Rozkład liczby plam słonecznych według miesięcy&quot;,
+    subtitle = &quot;Sprawdzenie sezonowości w aktywności słonecznej (1749-1983)&quot;,
+    x = &quot;Miesiąc&quot;,
+    y = &quot;Liczba plam słonecznych&quot;,
+    caption = &quot;Białe romby oznaczają średnią, czerwone punkty to wartości odstające&quot;
+  ) +
+  scale_fill_viridis_d(option = &quot;turbo&quot;) +
+  theme_minimal(base_size = 12) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = &quot;none&quot;
+  )</code></pre>
+<p><img src="figure/analiza.Rmd/plot3-boxplot-1.png" alt="" width="960" style="display: block; margin: auto;" />
+Boxplot nie wykazuje istotnych różnic w rozkładzie plam słonecznych
+między miesiącami, co potwierdza, że aktywność słoneczna nie ma
+charakteru sezonowego - cykle 11-letnie są niezależne od pór roku na
+Ziemi. Mediana i średnia wartości są zbliżone dla wszystkich
+miesięcy.</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.4.2 (2024-10-31 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 26100)
+
+Matrix products: default
+
+
+locale:
+[1] LC_COLLATE=English_United Kingdom.utf8 
+[2] LC_CTYPE=English_United Kingdom.utf8   
+[3] LC_MONETARY=English_United Kingdom.utf8
+[4] LC_NUMERIC=C                           
+[5] LC_TIME=English_United Kingdom.utf8    
+
+time zone: Europe/Warsaw
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] kableExtra_1.4.0 tidyr_1.3.2      ggplot2_4.0.1    dplyr_1.1.4     
+[5] workflowr_1.7.2 
+
+loaded via a namespace (and not attached):
+ [1] sass_0.4.10        generics_0.1.4     xml2_1.5.1         lattice_0.22-7    
+ [5] stringi_1.8.7      digest_0.6.39      magrittr_2.0.3     evaluate_1.0.5    
+ [9] grid_4.4.2         RColorBrewer_1.1-3 fastmap_1.2.0      Matrix_1.7-4      
+[13] rprojroot_2.1.1    jsonlite_2.0.0     processx_3.8.6     whisker_0.4.1     
+[17] ps_1.9.1           promises_1.5.0     mgcv_1.9-4         httr_1.4.7        
+[21] purrr_1.2.1        viridisLite_0.4.2  scales_1.4.0       textshaping_1.0.4 
+[25] jquerylib_0.1.4    cli_3.6.3          rlang_1.1.7        splines_4.4.2     
+[29] withr_3.0.2        cachem_1.1.0       yaml_2.3.12        otel_0.2.0        
+[33] tools_4.4.2        httpuv_1.6.16      vctrs_0.6.5        R6_2.6.1          
+[37] lifecycle_1.0.5    git2r_0.36.2       stringr_1.6.0      fs_1.6.6          
+[41] pkgconfig_2.0.3    callr_3.7.6        pillar_1.11.1      bslib_0.9.0       
+[45] later_1.4.5        gtable_0.3.6       glue_1.8.0         Rcpp_1.1.1        
+[49] systemfonts_1.3.1  xfun_0.55          tibble_3.3.1       tidyselect_1.2.1  
+[53] rstudioapi_0.18.0  knitr_1.51         farver_2.1.2       nlme_3.1-168      
+[57] htmltools_0.5.9    labeling_0.4.3     rmarkdown_2.30     svglite_2.2.2     
+[61] compiler_4.4.2     getPass_0.2-4      S7_0.2.1          </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
