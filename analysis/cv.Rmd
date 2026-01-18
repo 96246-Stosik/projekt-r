@@ -1,5 +1,142 @@
 ---
-title: "cv"
-output: html_document
+title: "Curriculum Vitae"
+date: "`r Sys.Date()`"
+output:
+  workflowr::wflow_html:
+    toc: false
 ---
 
+<style>
+.cv-section {
+  margin-bottom: 30px;
+}
+.cv-section h2 {
+  color: #2C3E50;
+  border-bottom: 2px solid #3498DB;
+  padding-bottom: 5px;
+  margin-top: 25px;
+}
+.cv-item {
+  margin-bottom: 20px;
+}
+.cv-item h3 {
+  color: #34495E;
+  margin-bottom: 5px;
+}
+.cv-date {
+  color: #7F8C8D;
+  font-style: italic;
+  font-size: 0.9em;
+}
+.cv-description {
+  margin-top: 8px;
+  line-height: 1.6;
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+.skill-category {
+  background-color: #ECF0F1;
+  padding: 15px;
+  border-radius: 5px;
+}
+.skill-category h4 {
+  color: #2C3E50;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+</style>
+
+---
+
+## Dane osobowe
+
+**Imię i nazwisko:** Takie jak na dowodzie  
+**Email:** Nie sprawdzam  
+**Telefon:** Posiadam  
+**Lokalizacja:** gdzieś w polsce
+
+---
+
+<div class="cv-section">
+
+## Wykształcenie
+
+<div class="cv-item">
+
+### Uniwersytet Przyrodniczy w Poznaniu
+<span class="cv-date"> 2023 - obecnie</span>
+
+**Kierunek:** Informatyka i Inżynieria danych  
+**Stopień:** I
+</div>
+
+<div class="cv-item">
+
+### Szkoła Średnia
+**Profil:** matematyczno-informatyczny  
+**Matura:**  Rozszerzona matematyka, informatyka, angielski
+
+</div>
+
+</div>
+
+---
+
+<div class="cv-section">
+
+## Umiejętności
+
+<div class="skills-grid">
+
+<div class="skill-category">
+#### Języki programowania
+- **R**
+- **C/C++**
+- **C#**
+- **Python**
+- **SQL**
+- **JavaScript**
+
+</div>
+
+<div class="skill-category">
+#### Technologie webowe
+- **HTML/CSS**
+- **Git** & **GitHub**
+- **Markdown**
+</div>
+
+</div>
+
+</div>
+
+---
+
+<div class="cv-section">
+
+## Języki obce
+
+- **Polski** - ojczysty
+- **Angielski** - [poziom: B2]
+
+</div>
+
+---
+
+<div class="cv-section">
+
+## Zainteresowania
+
+- Analiza danych i wizualizacja
+
+</div>
+
+---
+
+<center>
+<small>*CV stworzone w R Markdown jako część projektu workflowr*</small>
+</center>

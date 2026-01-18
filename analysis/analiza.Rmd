@@ -1,5 +1,199 @@
 ---
-title: "analiza"
-output: html_document
+title: "Analiza aktywności słonecznej"
+date: "`r Sys.Date()`"
+output:
+  workflowr::wflow_html:
+    toc: true
+    toc_float: true
+    code_folding: hide
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(kableExtra)
+```
+
+# Wprowadzenie
+
+## Opis zbioru danych
+
+Zbiór danych **sunspots** zawiera miesięczną liczbę plam słonecznych (sunspots) zaobserwowanych od stycznia 1749 roku do grudnia 1983 roku. 
+
+
+
+**Źródło:** Wbudowany zbiór danych w R (`datasets::sunspots`)
+
+**Co przedstawia:**
+Plamy słoneczne to ciemne obszary na powierzchni Słońca związane z intensywną aktywnością magnetyczną. Ich liczba zmienia się cyklicznie, co ma wpływ na:
+
+- pogodę kosmiczną
+- komunikację radiową na Ziemi
+- satelity i sieci elektryczne
+
+![Sunspots](assets/Sunspots.jpg){width=60%}
+
+*NASA Goddard Space Flight Center from Greenbelt, MD, USA*
+
+Cykl słoneczny trwa średnio około 11 lat.
+
+## Dane
+```{r wczytanie-danych}
+data <- data.frame(
+  rok = floor(time(sunspots)),
+  miesiac = cycle(sunspots),
+  plamy = as.numeric(sunspots),
+  czas = as.numeric(time(sunspots))
+)
+
+data$miesiac <- factor(data$miesiac, labels = c("Styczeń", "Luty", "Marzec", "Kwiecień", 
+                                                 "Maj", "Czerwiec", "Lipiec", "Sierpień",
+                                                 "Wrzesień", "Październik", "Listopad", "Grudzień"))
+
+head(data)
+```
+### Wyjasnienie kolumn
+
+- **rok** - rok obserwacji
+- **miesiac** - factor z polskimi nazwami miesięcyh
+- **plamy** - liczba zaobserwowanych plam słonecznych
+- **czas** - ciągła reprezentacja czasu jako liczba dziesiętna (rok + miesiąc/12)
+
+### Podstawowe Statystyki plam
+
+```{r summary}
+summary(data$plamy)
+```
+
+# Analiza danych
+
+## Przekształcenia danych z użyciem dplyr
+
+### 1. Filtrowanie danych
+
+**Dane tylko z XIX wieku**
+```{r filter}
+filtered = data %>% 
+  filter(rok >= 1801, rok <= 1900)
+
+cat("Liczba wierszy przed filtrowaniem:", nrow(data), "\n")
+cat("Liczba wierszy po filtrowaniu:", nrow(filtered), "\n")
+cat("Zakres lat:", min(filtered$rok), "-", max(filtered$rok))
+filtered %>%
+  head(25) %>% 
+  kbl(caption = "Pierwsze 25 wierszy") %>%
+  kable_classic(full_width = F, html_font = "Palatino")
+
+```
+
+
+
+
+### 2. Grupowanie i agregacja
+
+```{r group-by}
+dekady = data %>% 
+  mutate(dekada = floor(rok / 10) * 10) %>%
+  group_by(dekada) %>%
+  summarise(
+    srednia_plam = mean(plamy),
+    max_plam = max(plamy),
+    min_plam = min(plamy),
+  )
+
+dekady %>% 
+   kbl(caption = "Średnia aktywnośc według dekad") %>%
+  kable_classic(full_width = F, html_font = "Palatino")
+```
+
+Możemy zauważyć znaczne wahania aktywności słonecznej między dekadami. 
+Najwyższa średnia aktywność występowała w latach 1980-1989.
+
+### 3. Obliczenie rocznych statystyk
+
+```{r yearly-stats}
+roczne = data %>% 
+  group_by(rok) %>%
+  summarise(
+    srednia_roczna = mean(plamy),
+    max_roczne = max(plamy),
+    suma_roczna = sum(plamy)
+  ) %>%
+  mutate(
+    kategoria = case_when(
+      srednia_roczna < 50 ~ "Niska aktywność",
+      srednia_roczna < 100 ~ "Średnia aktywność",
+      TRUE ~ "Wysoka aktywność"
+    )
+  )
+
+roczne %>%
+  group_by(kategoria) %>%
+  summarise(liczba_lat = n()) %>% 
+  kbl(caption = "Liczb lat o określonej aktywności") %>%
+  kable_classic(full_width = F, html_font = "Palatino")
+```
+
+## Wizualizacje
+
+### Wykres 1:
+
+```{r plot1, fig.width=10, fig.height=5}
+ggplot(filtered, aes(x = czas, y = plamy)) +
+  geom_line(color = "#FF6B35", alpha = 0.7) +
+  geom_smooth(method = "loess", color = "#004E89", se = TRUE) +
+  labs(
+    title = "Liczba plam słonecznych w XIX wieku",
+    x = "Rok",
+    y = "Liczba plam słonecznych",
+    caption = "Źródło: Zbiór danych sunspots (R datasets)"
+  ) +
+  theme_minimal(base_size = 12)
+```
+Wykres liniowy wyraźnie pokazuje cykliczny charakter aktywności słonecznej. Niebieska linia trendu (loess) pomaga dostrzec ogólne wzorce. Możemy zaobserwować regularne wzrosty i spadki liczby plam słonecznych, potwierdzające istnienie cyklu słonecznego.
+
+### Wykres 2: Rozkład liczby plam słonecznych (histogram)
+
+```{r plot2, fig.width=9, fig.height=6}
+ggplot(data, aes(x = plamy)) +
+  geom_histogram(bins = 40, fill = "#F77F00", color = "white", alpha = 0.8) +
+  geom_vline(aes(xintercept = mean(plamy)), 
+             color = "#003049", linetype = "dashed", size = 1) +
+  annotate("text", x = mean(data$plamy) + 20, y = 200, 
+           label = paste("Średnia =", round(mean(data$plamy), 1)),
+           color = "#003049", size = 4) +
+  labs(
+    title = "Rozkład liczby plam słonecznych (1749-1983)",
+    subtitle = "Histogram przedstawiający częstość występowania różnych wartości",
+    x = "Liczba plam słonecznych",
+    y = "Częstość występowania",
+    caption = "Przerywana linia wskazuje średnią wartość"
+  ) +
+  theme_minimal(base_size = 12)
+```
+HIstogram pokazuje, że najczęściej obserwowano stosunkowo niską aktywność (0-50 plam), ale zdarzały się także okresy bardzo wysokiej aktywności przekraczającej 200 plam. Średnia wartość wynosi około 51 plam miesięcznie.
+
+### Wykres 3: Sezonowość aktywności słonecznej (boxplot)
+
+```{r plot3-boxplot, fig.width=10, fig.height=6}
+ggplot(data, aes(x = miesiac, y = plamy, fill = miesiac)) +
+  geom_boxplot(alpha = 0.7, outlier.color = "#D62828") +
+  stat_summary(fun = mean, geom = "point", shape = 23, size = 3, 
+               fill = "white", color = "black") +
+  labs(
+    title = "Rozkład liczby plam słonecznych według miesięcy",
+    subtitle = "Sprawdzenie sezonowości w aktywności słonecznej (1749-1983)",
+    x = "Miesiąc",
+    y = "Liczba plam słonecznych",
+    caption = "Białe romby oznaczają średnią, czerwone punkty to wartości odstające"
+  ) +
+  scale_fill_viridis_d(option = "turbo") +
+  theme_minimal(base_size = 12) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  )
+```
+Boxplot nie wykazuje istotnych różnic w rozkładzie plam słonecznych między miesiącami, co potwierdza, że aktywność słoneczna nie ma charakteru sezonowego - cykle 11-letnie są niezależne od pór roku na Ziemi. Mediana i średnia wartości są zbliżone dla wszystkich miesięcy.

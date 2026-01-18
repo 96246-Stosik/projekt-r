@@ -1,25 +1,28 @@
 ---
 title: "Strona główna"
-author: "..."
 date: "`r Sys.Date()`"
 output:
   workflowr::wflow_html:
     toc: false
+site: workflowr::wflow_site
 ---
 
 ## Witaj na mojej stronie!
-
-![Uniwersytet](assets/uczelnia.jpg){width=60%}
-
 ### O mnie
 
-Nazywam się **[Twoje Imię i Nazwisko]** i jestem studentem/studentką kierunku **[Nazwa kierunku]** na **[Nazwa uczelni]**.
+Nazywam się **Imię Nazwisko** i jestem studentem/studentką kierunku **Informatyka i Inżynieria danych** na **Uniwersytet Przyrodniczy w Poznaniu**.
+
+![](assets/uczelnia.jpg){width=60%}
 
 Ta strona została stworzona jako projekt zaliczeniowy i zawiera:
 
 - CV
 - Analizę danych w R
 - Prezentację moich zainteresowań
+
+
+
+
 
 ### Informacje techniczne
 

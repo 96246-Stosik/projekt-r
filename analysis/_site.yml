@@ -9,6 +9,12 @@ navbar:
     href: cv.html
   - text: Anazlia danych         
     href: analiza.html
+  - text: Prezentacja
+    href: prezentacja.html
+  
+  right:
+  - icon: fa-github
+    href: https://github.com/96246-Stosik/projekt-r
 output:
   workflowr::wflow_html:
     toc: yes
